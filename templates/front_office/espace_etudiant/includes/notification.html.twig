@@ -1,0 +1,15 @@
+<li class="dropdown xt-drop-nav">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+       data-animations="fadeInDown fadeInDown fadeInDown">
+        Notifications
+        <span id="number-unread-messages-top" class="badge badge-header badge-danger"
+              style="display: {{ countNotifNonVu > 0 ? 'inline' : 'none' }}; color: white; background-color: red;">{{ countNotifNonVu }}</span>
+
+    </a>
+    <ul class="dropdown-menu">
+        {% for notif in notifications %}
+            <li {% if notif.vu == false %}style="background-color: lightgrey"{% endif %}><a
+                        href="{{ notif.url }}">{{ notif.description }}</a></li>
+        {% endfor %}
+    </ul>
+</li>

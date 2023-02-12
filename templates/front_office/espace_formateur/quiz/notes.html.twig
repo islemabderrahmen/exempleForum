@@ -1,0 +1,73 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Liste des notes </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Notes Quiz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="col-sm-12">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <h4 class="text-center">Note Quiz du cours : {{ cours.titre|capitalize }}</h4>
+
+                            <div class="uv-profile-setting-inner" style="padding: 20px;">
+                                <div class="table-responsive" id="load-ajax">
+                                    <table class="table table table-striped">
+                                        <caption>
+                        <span class="text-bold text-uppercase">
+                            Nombre réponses : <span class="badge badge-info">{{ notes.getTotalItemCount }}</span>
+                        </span>
+                                        </caption>
+                                        <thead>
+                                        <tr>
+                                            <th class="col-lg-4">Etudiant</th>
+                                            <th class="col-lg-4">Lesson</th>
+                                            <th class="col-lg-3">Note</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for entity in notes %}
+                                            <tr class="item-block">
+                                                <td>{{ entity.etudiant.utilisateur.uniqueNom|capitalize }}</td>
+                                                <td>{{ entity.lesson.titre|capitalize }}</td>
+                                                <td>{{ entity.note }} / 10</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="dataTables_paginate">
+                                        {{ knp_pagination_render(notes) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/frontOffice/js/add-multiple.js') }}"></script>
+{% endblock %}

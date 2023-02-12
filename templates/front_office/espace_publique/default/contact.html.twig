@@ -1,0 +1,52 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+
+    <div class="col-lg-12">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m21!1m12!1m3!1d935.0628390243718!2d10.179003605908342!3d36.806122357757424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m6!3e6!4m0!4m3!3m2!1d36.8059462!2d10.1786072!5e1!3m2!1sfr!2stn!4v1548623551147"
+                height="600" frameborder="0" style="border:0; width: 100%" allowfullscreen></iframe>
+    </div>
+
+    <section class="uv-contact">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="col-md-9 col-sm-12 col-xs-12 content-widget">
+                    <div class="col-xs-12 widget-title">
+                        <h4>Laisser un Message</h4>
+                        <hr class="uv-hr">
+                    </div>
+                    <form  class="single-form quate-form" data-toggle="validator" method="post" action="">
+                        <div class="col-md-4">
+                            {{ form_widget(form.nom) }}
+                            {{ form_widget(form.email) }}
+                            {{ form_widget(form.telephone) }}
+                        </div>
+                        <div class="col-sm-12 col-md-8">
+                            {{ form_widget(form.sujet) }}
+                            {{ form_widget(form.contenu) }}
+                            <button type="submit" class="btn btn-fill">Envoyer message <i class="icon icons8-advance"></i></button>
+                        </div>
+                        {{ form_end(form) }}
+                    </form>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 content-widget uv-contact-details-1">
+                    <div class="widget-title">
+                        <h4>Contact Details</h4>
+                        <hr class="uv-hr">
+                    </div>
+                    <div class="contact-list">
+                        <ul class="contact-details">
+                            <li><i class="fa fa-link"></i> <a href="#">www.curricular.com</a></li>
+                            <li><i class="fa fa-envelope"></i> <a
+                                        href="mailto:info@yoursite.com">info@curricular.com</a></li>
+                            <li><i class="fa fa-phone"></i> +90 123 45 67</li>
+                            <li><i class="fa fa-fax"></i> +90 123 45 68</li>
+                            <li><i class="fa fa-home"></i> Curricular INC 22 Elizabeth Str. Melbourne. Victoria 8777.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,195 @@
+<!--NAVBAR-->
+<!--===================================================-->
+<header id="navbar">
+    <div id="navbar-container" class="boxed">
+
+        <!--Brand logo & name-->
+        <!--================================-->
+        <div class="navbar-header">
+            <a href="{{ path('back_accueil') }}" class="navbar-brand">
+                <div class="brand-title">
+                    <span class="brand-text">Administration</span>
+                </div>
+            </a>
+        </div>
+        <!--================================-->
+        <!--End brand logo & name-->
+
+
+        <!--Navbar Dropdown-->
+        <!--================================-->
+        <div class="navbar-content clearfix">
+            <ul class="nav navbar-top-links pull-left">
+                <li class="tgl-menu-btn">
+                    <a class="mainnav-toggle" href="#">
+                        <i class="pli-view-list"></i>
+                    </a>
+                </li>
+                <!--Messages dropdown-->
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="psi-mail"></i>
+                        <span id="number-unread-messages-top" class="badge badge-header badge-danger"
+                              style="display: {{ nombreMessagesNonLu ? 'block' : 'none' }}">{{ nombreMessagesNonLu }}</span>
+                    </a>
+
+                    <!--Notification dropdown menu-->
+                    <div class="dropdown-menu dropdown-menu-md">
+                        <div class="pad-all bord-btm">
+                            <p class="text-lg text-semibold mar-no">Les derniers messages récus</p>
+                        </div>
+                        <div class="nano scrollable">
+                            <div class="nano-content">
+                                <ul class="head-list">
+                                    <!-- Dropdown list-->
+                                    {% for entity in derniersMessages %}
+                                        <li id="li-message-top-{{ entity.id }}" data-id="{{ entity.id }}"
+                                            {% if entity.lu == false %}class="bg-gray"{% endif %}
+                                            style="border-bottom: 1px solid lightgrey">
+                                            <a class="media with-loading {{ entity.lu == false ? 'read-message-top' }}"
+                                               href="{{ path('back_message_voir', {'id': entity.id}) }}"
+                                               data-remote="false" data-toggle="modal"
+                                               data-target="#myModalShow">
+                                                <div class="media-body">
+                                                    <div class="text-nowrap">{{ entity.nom }} a envoyé un message
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        {{ entity.dateEnvoi|localizeddate('none', 'none', format='EEEE dd MMM yyyy à HH:mm') }}
+                                                    </small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!--Dropdown footer-->
+                        <div class="pad-all bord-top">
+                            <a href="{{ path('back_message_liste') }}" class="btn-link text-dark box-block">
+                                <i class="fa fa-angle-right fa-lg pull-right"></i>Voir tous
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--End messages dropdown-->
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-bell"></i>
+                        <span id="number-unread-messages-top" class="badge badge-header badge-danger"
+                              style="display: {{ notifications|length ? 'block' : 'none' }}">{{ notifications|length }}</span>
+                    </a>
+
+                    <!--Notification dropdown menu-->
+                    <div class="dropdown-menu dropdown-menu-md">
+                        <div class="pad-all bord-btm">
+                            <p class="text-lg text-semibold mar-no">Notifications</p>
+                        </div>
+                        <div class="nano scrollable">
+                            <div class="nano-content">
+                                <ul class="head-list">
+                                    <!-- Dropdown list-->
+                                    {% for entity in notifications %}
+                                        {% if entity.type == 'inscription_etudiant' %}
+                                            {% set lien = path('back_etudiant_liste') %}
+                                        {% else %}
+                                            {% set lien = path('back_formateur_liste') %}
+                                        {% endif %}
+                                        <li {% if entity.vu == false %}class="bg-gray"{% endif %}
+                                            style="border-bottom: 1px solid lightgrey">
+                                            <a class="media with-loading"
+                                               href="{{ lien }}">
+                                                <div class="media-body">
+                                                    <div class="text-nowrap">{{ entity.description }}</div>
+                                                    <small class="text-muted">
+                                                        {{ entity.date|localizeddate('none', 'none', format='EEEE dd MMM yyyy à HH:mm') }}
+                                                    </small>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!--Mega dropdown-->
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <li class="mega-dropdown">
+                    <a href="#" class="mega-dropdown-toggle">
+                        <i class="pli-layout-grid"></i>
+                    </a>
+                    <div class="dropdown-menu mega-dropdown-menu">
+                        <div class="clearfix">
+                            <div class="col-xs-12">
+
+                                <div class="col-lg-3">
+                                    <!--Mega menu list-->
+                                    <ul class="list-unstyled">
+                                        <li class="dropdown-header"><i class="fa fa-list"></i> Titres</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-3">
+
+                                </div>
+
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <div class="col-lg-3">
+                                        <!--Mega menu list-->
+                                        <ul class="list-unstyled">
+                                            <li class="dropdown-header"><i class="fa fa-group"></i> Utilisateurs</li>
+                                            <li><a href="{{ path('back_formateur_liste') }}">Formateurs</a></li>
+                                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                                <li>
+                                                    <a href="{{ path('back_etudiant_liste') }}">Etudiants</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--End mega dropdown-->
+
+            </ul>
+
+
+            <ul class="nav navbar-top-links pull-right">
+                <!--User dropdown-->
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <li id="dropdown-user" class="dropdown">
+                    <a href="" class="dropdown-toggle text-right">
+                        <span class="pull-right">
+                            <img class="img-circle img-user media-object"
+                                 src="{{ asset('assets/backOffice/img/administrator.png') }}" alt="Profile Picture">
+                        </span>
+                        <div class="username hidden-xs">{{ app.user.firstName|default() }}</div>
+                    </a>
+                </li>
+                <li>
+                    <div class="pad-all-sm text-right" style="padding-top: 5px;">
+                        <a href="{{ path('app_logout') }}" class="btn btn-primary" id="logout">
+                            <i class="fa fa-power-off"></i> Déconnexion
+                        </a>
+                    </div>
+                </li>
+
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--End user dropdown-->
+
+            </ul>
+        </div>
+        <!--================================-->
+        <!--End Navbar Dropdown-->
+
+    </div>
+</header>

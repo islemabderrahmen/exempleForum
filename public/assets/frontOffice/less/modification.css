@@ -1,0 +1,35 @@
+.section-separator {
+    padding: 40px 0 70px;
+}
+
+.uv-sudent-profile-info .uv-student-profile-inner ul li p{
+    color: black;
+}
+.uv-sudent-profile-info{
+    padding-top: 5px;
+}
+
+pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #21b14d;
+    border-color: #21b14d;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #21b14d;
+    background-color: #eee;
+    border-color: #ddd;
+}
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #21b14d;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}

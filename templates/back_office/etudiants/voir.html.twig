@@ -1,0 +1,79 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <!--Modal header-->
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center">{{ entity.utilisateur.uniqueNom|title }}</h4>
+        </div>
+
+        <!--Modal body-->
+        <div class="modal-body">
+            <table class="table table-striped">
+                <tr>
+                    <td class="td-title">Nom:</td>
+                    <td class="td-val"><strong>{{ entity.utilisateur.uniqueNom|title }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Date de naissance:</td>
+                    <td class="td-val">{{ entity.dateNaissance|date('d-m-Y') }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Sexe:</td>
+                    <td class="td-val">{{ entity.sexe }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Email:</td>
+                    <td class="td-val">{{ entity.utilisateur.email }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Téléhone:</td>
+                    <td class="td-val">{{ entity.telephone }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Ville:</td>
+                    <td class="td-val">{{ entity.ville }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Adresse:</td>
+                    <td class="td-val">{{ entity.adresse }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Pays:</td>
+                    <td class="td-val">{{ entity.pays.nameFr|default('') }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Etat:</td>
+                    <td class="td-val">
+                        {% if entity.utilisateur.active == '1' %}
+                            <span class="badge badge-success">
+                                Activé <span class="fa fa-check"></span>
+                            </span>
+                        {% elseif entity.utilisateur.active == '0' %}
+                            <span class="badge badge-danger">
+                                Désactivé <span class="fa fa-minus-circle"></span>
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-title">Inscri le:</td>
+                    <td class="td-val">{{ entity.utilisateur.dateInscription|localizeddate('medium', 'none', 'fr') }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Dernière connexion:</td>
+                    <td class="td-val">{{ entity.utilisateur.dernierConnexion|localizeddate('medium', 'none', 'fr') }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Modal footer-->
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-primary" type="button">
+                Fermer
+            </button>
+        </div>
+    </div>
+</div>
+

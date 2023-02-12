@@ -1,0 +1,19 @@
+<form method="get" action="{{ path('front_cours_chercher') }}">
+    <div class="uv_aside_field">
+        {{ form_widget(form_recherche.motCle) }}
+        <i class="fa uv-gt-search fa-search"></i>
+    </div>
+    <div class="uv_aside_field">
+        {{ form_widget(form_recherche.niveau) }}
+    </div>
+    <div class="uv_aside_field">
+        {{ form_widget(form_recherche.categorie) }}
+    </div>
+    <div class="uv_aside_field">
+        {{ form_widget(form_recherche.formateur) }}
+    </div>
+
+    <div class="uv_aside_field">
+        <button>Chercher<i class="fa fa-search"></i></button>
+    </div>
+</form>

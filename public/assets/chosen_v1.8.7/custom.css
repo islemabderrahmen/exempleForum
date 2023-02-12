@@ -1,0 +1,32 @@
+.chosen-container {
+    width: 100% !important;
+    /*height: 38px;*/
+    /*border: 1px solid lightgray;*/
+}
+.chosen-choices:hover{
+    border: 1px solid #ff7c39;
+}
+.chosen-container-multi .chosen-choices li.search-choice{
+    border-color: #ff7c39;
+}
+.chosen-container-multi .chosen-choices {
+     /*height: 38px;*/
+}
+.chosen-select:invalid {
+    height: 0px !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    display: flex !important;
+}
+
+.chosen-select:invalid[multiple] {
+    margin-top: 15px !important;
+}
+
+.chosen-container .chosen-single {
+    /*height: 38px;*/
+    border: 1px solid lightgray;
+}
+.chosen-container-single:hover{
+    border: 1px solid #ff7c39;
+}

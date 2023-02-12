@@ -1,0 +1,88 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Inscription formateur </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Inscription Formateur</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                {{ render(controller('App\\Controller\\FrontOffice\\EspaceFormateur\\ProfilController::leftSide')) }}
+                <div class="col-sm-8">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <div class="col-lg-6">
+                                <h3 class="pull-left">Mes cours en favoris</h3>
+                            </div>
+                            <ul class="uv-std-favorites">
+                                {% for favoris in favoris %}
+                                    <li class="item-block">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="uv-fav-trainer-img">
+                                                    <a href="{{ path('front_cours_voir', {'slug': favoris.cours.slug}) }}">
+                                                        <img src="{{ asset(favoris.cours.image.webPath|imagine_filter('image_263_200')) }}"
+                                                             alt=""
+                                                             class="img-responsive">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="uv-std-fav-course-info">
+                                                    <div class="uv-std-course-review">
+                                                        <ul>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        </ul>
+                                                        <b>4.0</b>
+                                                    </div>
+                                                    <a href="{{ path('front_cours_voir', {'slug': favoris.cours.slug}) }}">
+                                                        <h6>{{ favoris.cours.titre|capitalize }}</h6></a>
+                                                    <p>Publié le <a> {{ favoris.cours.dateCreation|date('d-m-Y') }}</a></p>
+                                                    <p>
+                                                        <a class="uv_add_fav ajouter-en-favoris"
+                                                           data-id="{{ favoris.cours.id }}"
+                                                           id="ajouter-en-favoris-{{ favoris.cours.id }}"
+                                                           style="width: 100%;display: none"
+                                                           href="{{ path('front_favoris_cours_ajouter') }}"><i class="fa fa-heart-o"></i> Ajouter au
+                                                            favoris</a>
+                                                        <a class="uv_add_fav supprimer-de-favoris"
+                                                           data-id="{{ favoris.cours.id }}"
+                                                           id="supprimer-de-favoris-{{ favoris.cours.id }}"
+                                                           style="width: 100%;display: block;"
+                                                           href="{{ path('front_favoris_cours_supprimer') }}"><i class="fa fa-heart"></i> Supprimer de
+                                                            favoris</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

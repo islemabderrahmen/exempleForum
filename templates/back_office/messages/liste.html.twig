@@ -1,0 +1,87 @@
+{% extends 'back_office/base.html.twig' %}
+{% block page_title %}
+    Liste Messages Reçus
+{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Messages Reçu</li>
+{% endblock breadcrumb %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liste des Messages Reçu</h3>
+        </div>
+        <div class="panel-body" id="main">
+            <div class="row">
+                <div class="col-lg-6">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="table-responsive" id="load-ajax">
+                <br>
+                <table class="table table table-striped">
+                    <caption>
+                        <span class="text-bold text-uppercase">
+                            Messages : <span class="badge badge-info">{{ entities.getTotalItemCount }}</span>
+                        </span>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th class="col-lg-3">Sujet</th>
+                        <th class="col-lg-4">Message</th>
+                        <th class="col-lg-2">Expéditeur</th>
+                        <th class="col-lg-2">Reçu le</th>
+                        <th class="col-lg-1 text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                        <tr id="tr-message-{{ entity.id }}" data-id="{{ entity.id }}" class="item-block">
+                            <td>
+                                {% if entity.lu %}
+                                    <i class="fa fa-envelope-open-o icon-open" style="color: darkgoldenrod" title="Lu"></i>
+                                    <i class="fa fa-envelope icon-closed" style="color: goldenrod; display: none"
+                                       title="Non lu"></i>
+                                {% else %}
+                                    <i class="fa fa-envelope icon-closed" style="color: goldenrod" title="Non lu"></i>
+                                    <i class="fa fa-envelope-open-o icon-open" style="color: darkgoldenrod; display: none"
+                                       title="Lu"></i>
+                                {% endif %}
+                            </td>
+                            <td href="{{ path('back_message_voir', {'id': entity.id}) }}"
+                                class="cursor-pointer with-loading {{ entity.lu == false ? 'read-message' }}"
+                                data-remote="false" data-toggle="modal"
+                                data-target="#myModalShow">
+                                {{ entity.sujet|title }}
+                            </td>
+                            <td>{{ entity.contenu|slice(0,100)|capitalize }}</td>
+                            <td>{{ entity.nom|capitalize }}</td>
+                            <td>{{ entity.dateEnvoi|localizeddate('medium', 'short', 'fr') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('back_message_voir', {'id': entity.id}) }}"
+                                   data-remote="false" data-toggle="modal"
+                                   data-target="#myModalShow"
+                                   class="add-tooltip tooltip-info with-loading {{ entity.lu == false ? 'read-message' }}"
+                                   data-placement="top" data-original-title="Voir">
+                                    <i class="fa fa-eye text-info fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                                <a href="{{ path('back_message_supprimer',{'id': entity.id}) }}"
+                                   class="remove-item" title="Supprimer">
+                                    <i class="fa fa-trash text-danger fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate">
+                    {{ knp_pagination_render(entities) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

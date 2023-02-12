@@ -1,0 +1,94 @@
+{% extends 'back_office/base.html.twig' %}
+{% block page_title %}
+    Liste des Administrateurs
+{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Administrateur</li>
+{% endblock breadcrumb %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liste des Administrateurs</h3>
+        </div>
+        <div class="panel-body" id="main">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <a href="{{ path('back_administrateur_ajouter') }}" class="btn btn-success btn-labeled fa fa-plus">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" id="load-ajax">
+                <br>
+                <table class="table table table-striped">
+                    <caption>
+                        <span class="text-bold text-uppercase">
+                            Administrateur : <span class="badge badge-info">{{ entities.getTotalItemCount }}</span>
+                        </span>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th class="col-lg-3">Nom</th>
+                        <th class="col-lg-2">Email</th>
+                        <th class="col-lg-2">Mobile</th>
+                        <th class="col-lg-2">Inscri le</th>
+                        <th class="col-lg-1 text-center">Statut</th>
+                        <th class="col-lg-2 text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities if entity.utilisateur != app.user %}
+                        <tr class="item-block">
+                            <td href="{{ path('back_administrateur_voir', {'id': entity.id}) }}"
+                                class="cursor-pointer with-loading"
+                                data-remote="false" data-toggle="modal"
+                                data-target="#myModalShow">{{ entity.utilisateur.uniqueNom|capitalize }}
+                            </td>
+                            <td>{{ entity.utilisateur.email }}</td>
+                            <td>{{ entity.mobile|default('') }}</td>
+                            <td>{{ entity.utilisateur.dateInscription|localizeddate('medium', 'none', 'fr') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('back_administrateur_activer', {'id': entity.id}) }}"
+                                   class="activate-deactivate" data-active="{{ entity.utilisateur.active ? '1' : '0' }}">
+                                    <i class="fa fa-unlock text-success bigger-150 icon-unlocked add-tooltip tooltip-error"
+                                       data-placement="top" data-original-title="Cliquer pour désactiver"
+                                       style="display: {{ entity.utilisateur.active ? 'block' : 'none' }}">
+                                    </i>
+                                    <i class="fa fa-lock text-danger bigger-150 icon-locked add-tooltip tooltip-success"
+                                       data-placement="top" data-original-title="Cliquer pour activer"
+                                       style="display: {{ entity.utilisateur.active ? 'none' : 'block' }}">
+                                    </i>
+                                </a>
+                                <i class="fa fa-spinner fa-spin text-primary fa-1x" style="display: none"></i>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('back_administrateur_voir', {'id': entity.id}) }}"
+                                   data-remote="false" data-toggle="modal"
+                                   data-target="#myModalShow"
+                                   class="add-tooltip tooltip-info with-loading"
+                                   data-placement="top" data-original-title="Voir">
+                                    <i class="fa fa-eye text-info fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="{{ path('back_administrateur_modifier',{'id': entity.utilisateur.id}) }}" title="Modifier">
+                                    <i class="fa fa-pencil text-primary fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                                <a href="{{ path('back_administrateur_supprimer',{'id': entity.id}) }}"
+                                   class="remove-item" title="Supprimer">
+                                    <i class="fa fa-trash text-danger fa-1x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate">
+                    {{ knp_pagination_render(entities) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

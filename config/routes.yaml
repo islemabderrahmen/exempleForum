@@ -1,0 +1,22 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+front_office_app:
+  resource: '../src/Controller/FrontOffice'
+  type: annotation
+
+front_office_espace_etudiant:
+  resource: '../src/Controller/FrontOffice/EspaceEtudiant'
+  type: annotation
+  prefix: espace-etudiant
+
+front_office_app_espace_formateur:
+  resource: '../src/Controller/FrontOffice/EspaceFormateur'
+  type: annotation
+  prefix: espace-formateur
+
+back_office_app:
+  resource: '../src/Controller/BackOffice'
+  type: annotation
+  prefix: administration

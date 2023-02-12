@@ -1,0 +1,120 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <style>
+        .uv-sudent-profile-info .uv-student-courses-overview .uv-std-course-info .uv-std-course-review ul li .fa{
+            color: lightgrey;
+        }
+        .uv-sudent-profile-info .uv-student-courses-overview .uv-std-course-info .uv-std-course-review ul li .checked {
+            color: orange;
+        }
+    </style>
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Nos cours</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Nos cours</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <aside class="uv-sidebar col-md-3 col-sm-12">
+                    <div class="uv_aside_hdg default_width mb30">
+                        <h6>Trouver un cours</h6>
+                        <i class="fa fa-minus"></i>
+                        {{ render(controller('App\\Controller\\FrontOffice\\EspacePublique\\CoursController::formRecherchevertical')) }}
+                    </div>
+
+                </aside>
+
+                <div id="primary" class="content-area uv-course-listing-inner col-md-9 col-sm-12">
+                    <div class="uv-sudent-profile-info padding-top-o">
+                        <div class="uv-student-courses-overview">
+                            {% if cours|length > 0 %}
+                                <ul>
+                                    {% for cours in cours %}
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="course-feature-img">
+                                                        <img src="{{ asset(cours.image.webPath) }}" alt=""
+                                                             class="img-responsive">
+                                                        <span>{{ cours.categorie.nom|capitalize }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="uv-std-course-info">
+                                                        <a href="{{ path('front_cours_voir', {'slug': cours.slug}) }}">
+                                                            <h6>{{ cours.titre }}</h6></a>
+                                                        <div class="uv-std-course-review">
+                                                            <ul>
+                                                                {% set nb = cours.nombreEtoiles %}
+                                                                {% for i in 1..5 %}
+                                                                    <li><i class="fa fa-star {{ i <= nb ? 'checked' : '' }}"></i></li>
+                                                                {% endfor %}
+
+                                                            </ul>
+                                                            <span>Publié le {{ cours.dateCreation|date('d-m-Y') }}</span>
+                                                        </div>
+                                                        <p>{{ cours.description|slice(0,200)|striptags|capitalize }}</p>
+                                                        <p>
+                                                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                                                <a class="uv_add_fav text-success ajouter-en-favoris"
+                                                                   data-id="{{ cours.id }}"
+                                                                   id="ajouter-en-favoris-{{ cours.id }}"
+                                                                   style="width: 100%;display: {{ cours.id not in coursEnFavoris ? 'block' : 'none' }};"
+                                                                   href="{{ path('front_favoris_cours_ajouter') }}"><i
+                                                                            class="fa fa-heart-o"></i> Ajouter au
+                                                                    favoris</a>
+                                                                <a class="uv_add_fav text-danger supprimer-de-favoris"
+                                                                   data-id="{{ cours.id }}"
+                                                                   id="supprimer-de-favoris-{{ cours.id }}"
+                                                                   style="width: 100%;display: {{ cours.id in coursEnFavoris ? 'block' : 'none' }};"
+                                                                   href="{{ path('front_favoris_cours_supprimer') }}"><i
+                                                                            class="fa fa-heart"></i> Supprimer de
+                                                                    favoris</a>
+                                                            {% else %}
+                                                                <a class="uv_add_fav text-success"
+                                                                   style="width: 100%"
+                                                                   href="{{ path('app_login') }}"><i
+                                                                            class="fa fa-heart-o"></i> Ajouter au
+                                                                    favoris</a>
+                                                            {% endif %}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <div class="alert alert-danger">
+                                    Aucun cours a été trouvé.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="">
+                        {{ knp_pagination_render(cours) }}
+                    </div>
+                </div><!-- #primary -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

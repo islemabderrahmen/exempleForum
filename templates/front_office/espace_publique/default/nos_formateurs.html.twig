@@ -1,0 +1,67 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Nos formateurs</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Nos formateurs</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-blog bg-2">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="section-title col-xs-12">
+                    <h2>Nos formateurs</h2>
+                    <hr class="uv-hr">
+                    <a href="#" class="btn btn-base view-full-event" style="display: none"></a>
+                </div>
+                <div class="each-blogs">
+                    {% for formateur in formateurs %}
+                        <div class="col-lg-3">
+                            <div class="item">
+                                <div class="blog-inner">
+                                    <div class="blog-banner">
+                                        {% if formateur.avatar %}
+                                            <img src="{{ asset(formateur.avatar.webPath) }}" alt=""
+                                                 class="img-responsive">
+                                        {% else %}
+                                            <img src="{{ asset('assets/images/default_avatar.png') }}" alt=""
+                                                 class="img-responsive">
+                                        {% endif %}
+                                    </div>
+                                    <div class="blog-content">
+                                        <h4>{{ formateur.utilisateur.uniqueNom|title }}</h4>
+                                        <div class="blog-schedule">
+                                            <a href="#"><h4>{{ formateur.utilisateur.uniqueNom|title }}</h4></a>
+                                            <span>{{ formateur.pays.nameFr|capitalize }}</span>
+                                            <ul>
+                                                <li><a href="{{ formateur.facebook }}"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a href="{{ formateur.googlePlus }}"><i class="fa fa-google-plus"></i></a></li>
+                                                <li><a href="{{ formateur.linkedin }}"><i class="fa fa-linkedin"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

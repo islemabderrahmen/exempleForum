@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="app landing page template"/>
+    <meta name="keywords" content="app, landing page, bootstrap"/>
+    <meta name="developer" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- FAV AND ICONS   -->
+        <link rel="icon" href="{{ asset('assets/frontOffice/images/favicon.png') }}" sizes="32x32"/>
+        <link rel="icon" href="{{ asset('assets/frontOffice/images/apple-icon-192.png') }}" sizes="192x192"/>
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/frontOffice/images/apple-icon-180.png') }}"/>
+
+        <!-- GOOGLE FONTS -->
+        <link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,700%7cVarela+Round" rel="stylesheet">
+
+        <!-- FONT ICONS -->
+        <link rel="stylesheet"
+              href="{{ asset('assets/frontOffice/icons/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+
+        <!-- Custom Icon Font -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/font/flaticon.css') }}">
+        <!-- Bootstrap-->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/bootstrap.min.css') }}">
+        <!-- Animation -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/animate.css') }}">
+        <!-- owl -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/owl.css') }}">
+        <!-- selectize -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/selectize.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/selectize.bootstrap3.css') }}">
+        <!-- Fancybox-->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/jquery.fancybox.min.css') }}">
+        <!--dropdown -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/bootstrap-dropdownhover.min.css') }}">
+        <!-- mobile nav-->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/plugins/css/meanmenu.css') }}">
+
+        <!-- COUSTOM CSS link  -->
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/less/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/less/responsive.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/frontOffice/less/modification.css') }}">
+        <link href="{{ asset('assets/flashMessage/css/flash-message.css') }}" type="text/css" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="{{ asset('assets/chosen_v1.8.7/chosen.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/backOffice/chosen_v1.8.7/chosen-bootstrap.css') }}">
+
+    {% endblock %}
+</head>
+<body>
+{{ render(controller('App\\Controller\\FrontOffice\\EspacePublique\\DefaultController::header')) }}
+
+
+{% block body %}{% endblock %}
+
+{{ include('flashMessage/flash-messages.html.twig') }}
+{{ include('front_office/includes/footer.html.twig') }}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
+    {{ include('front_office/inscription/modal.html.twig') }}
+{% endif %}
+
+{% block javascripts %}
+    <!-- jquery -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/jquery-1.11.3.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/bootstrap.min.js') }}"></script>
+    <!-- mean menu nav-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/meanmenu.js') }}"></script>
+    <!-- ajaxchimp -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/jquery.ajaxchimp.min.js') }}"></script>
+    <!-- wow -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/wow.min.js') }}"></script>
+    <!-- Owl carousel-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/owl.carousel.js') }}"></script>
+    <!--dropdownhover-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/bootstrap-dropdownhover.min.js') }}"></script>
+    <!--jquery-ui.min-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/bars.js') }}"></script>
+    <!--validator -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/validator.min.js') }}"></script>
+    <!--smooth scroll-->
+    <script src="a{{ asset('assets/frontOffice/plugins/js/smooth-scroll.js') }}"></script>
+    <!-- Fancybox js-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/jquery.fancybox.min.js') }}"></script>
+    <!-- fitvids -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/jquery.fitvids.js') }}"></script>
+    <!-- SELECTIZE-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/standalone/selectize.js') }}"></script>
+    <!-- isotope js-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/isotope.pkgd.js') }}"></script>
+    <script src="{{ asset('assets/frontOffice/plugins/js/packery-mode.pkgd.js') }}"></script>
+    <!-- progressbar-->
+    <script src="{{ asset('assets/frontOffice/plugins/js/progressbar.min.js') }}"></script>
+    <!-- inview -->
+    <script src="{{ asset('assets/frontOffice/plugins/js/jquery.inview.min.js') }}"></script>
+    <!---->
+    <script src="{{ asset('assets/backOffice/js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('assets/backOffice/javascripts/remove.js') }}"></script>
+    <script src="{{ asset('assets/frontOffice/js/favoris.js') }}"></script>
+    <!-- init -->
+    <script src="{{ asset('assets/frontOffice/js/init.js') }}"></script>
+
+    <script src="{{ asset('assets/flashMessage/js/flash-message.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+
+    <script>
+        $('#flash-messages').flashNotification('init');
+        $(document).ready(function () {
+            $(".chosen-select").chosen({max_selected_options: 7});
+            $(".active-result").on("select", "chosen:maxselected", function () {
+                alert("max elements selected");
+            });
+        });
+    </script>
+{% endblock %}
+</body>
+</html>

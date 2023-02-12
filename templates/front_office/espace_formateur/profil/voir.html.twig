@@ -1,0 +1,105 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Inscription formateur </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Inscription Formateur</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                {{ render(controller('App\\Controller\\FrontOffice\\EspaceFormateur\\ProfilController::leftSide')) }}
+                <div class="col-sm-8">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-profile-details-header">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="uv-student-img">
+                                    {% if formateur.avatar %}
+                                        <img src="{{ asset(formateur.avatar.webPath) }}" class="img-responsive">
+                                    {% else %}
+                                        <img src="{{ asset('assets/images/default_avatar.png') }}" class="img-responsive">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="uv-student-profile-inner">
+                                    <ul>
+                                        <li>
+                                            <span>Nom:</span>
+                                            <p>{{ formateur.utilisateur.nom|capitalize }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Prénom:</span>
+                                            <p>{{ formateur.utilisateur.prenom }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Sexe:</span>
+                                            <p>{{ formateur.sexe }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Date naissance:</span>
+                                            <p>{{ formateur.dateNaissance|date('d-m-Y') }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Email:</span>
+                                            <p>{{ formateur.utilisateur.email }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Téléphone:</span>
+                                            <p>{{ formateur.telephone }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Address:</span>
+                                            <p>{{ formateur.adresse }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Ville:</span>
+                                            <p>{{ formateur.Ville|capitalize }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Pays:</span>
+                                            <p>{{ formateur.Pays.nameFr }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Facebook:</span>
+                                            <p>{{ formateur.facebook }}</p>
+                                        </li>
+                                        <li>
+                                            <span>Google+</span>
+                                            <p> <p>{{ formateur.googlePlus }}</p></p>
+                                        </li>
+                                        <li>
+                                            <span>Linkedin:</span>
+                                            <p>{{ formateur.linkedin }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uv-student-overview">
+                            <h3>A propos de moi</h3>
+                            {{ app.user.formateur.description|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

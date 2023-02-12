@@ -1,0 +1,269 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>{{ lesson.titre }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Lesson / {{ lesson.titre|capitalize }}</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <div id="primary" class="content-area col-md-8 col-sm-12">
+                    <div class="uv-single-course">
+                        <div class="single-each-content uv-course-details-inner shadow-3">
+                            <img src="{{ asset(lesson.image.webPath) }}" alt=""
+                                 class="img-responsive uv-course-banner">
+                            <div class="uv-cd-heading uv-cd-wrap">
+                                <div class="each-title">
+                                    <div style="width: 80%; float: left">
+                                        <h2 style="width: 100%; margin-top: 10px;">{{ lesson.titre }}</h2>
+                                    </div>
+                                    <div style="width: 20%; float: right">
+                                        {% if is_granted('ROLE_FORMATEUR') %}
+                                            {% if app.user.formateur == lesson.cours.formateur %}
+                                                <a href="{{ path('espace_formateur_lesson_modifier', {'id': lesson.id}) }}"
+                                                   class="btn btn-xs pull-right"
+                                                   style="background-color: #25b762; color: white; border-color: white; font-size: 14px;">
+                                                    <i class="fa fa-pencil"></i> Modifier</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="uv-cd-meta">
+                                    <ul>
+                                        <li>
+                                            <figure>
+                                                {% if lesson.cours.formateur.avatar %}
+                                                    <img src="{{ asset(lesson.cours.formateur.avatar.webPath) }}"
+                                                         class="img-responsive">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/default_avatar.png') }}"
+                                                         class="img-responsive">
+                                                {% endif %}
+                                            </figure>
+                                            <div class="uv-course-meta-des">
+                                                <h6>{{ lesson.cours.formateur.utilisateur.uniqueNom }}</h6>
+                                                <span>{{ lesson.cours.formateur.pays.nameFr }}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i class="icon-book"></i>
+                                            <div class="uv-course-meta-des">
+                                                <h6>{{ lesson.cours.categorie.nom }}</h6>
+                                                <span>Categorie</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i class="icon-book"></i>
+                                            <div class="uv-course-meta-des">
+                                                <h6>Publié le</h6>
+                                                <span>{{ lesson.dateCreation|date('d-m-Y') }}</span>
+                                            </div>
+                                        </li>
+                                        {% if lesson.document %}
+                                            <li>
+                                                <i class="icon-book"></i>
+                                                <div class="uv-course-meta-des">
+                                                    <h6>Document</h6>
+                                                    <i class="fa fa-file"></i> <a
+                                                            href="{{ asset(lesson.document.webPath) }}"
+                                                            download="">Télécharger</a>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="uv-cd-about  uv-cd-wrap">
+                                <iframe width="" height="500" style="width: 100%"
+                                        src="https://www.youtube.com/embed/{{ lesson.video.identif }}">
+                                </iframe>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="uv-cd-about  uv-cd-wrap">
+                                <div class="col-lg-12">
+                                    <h3>Déscription de lesson</h3>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    {{ lesson.description|raw }}
+                                </div>
+                            </div>
+
+                            <div class="uv-cd-instructor uv-cd-wrap">
+                                <div class="uv-cd-instrutor-details">
+                                    {% if lesson.cours.formateur.avatar %}
+                                        <figure>
+                                            <img src="{{ asset(lesson.cours.formateur.avatar.webPath) }}"
+                                                 class="img-responsive" alt="">
+                                        </figure>
+                                    {% endif %}
+                                    <div class="uv-cd-instructor-details-inner">
+                                        <h3>{{ lesson.cours.formateur.utilisateur.uniqueNom }}</h3>
+                                        <span>{{ lesson.cours.formateur.pays.nameFr }}</span>
+                                        {{ lesson.cours.formateur.description|raw }}
+                                        <ul class="uv-social-icons">
+                                            <li><a href="{{ lesson.cours.formateur.facebook }}"><i
+                                                            class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li><a href="{{ lesson.cours.formateur.linkedin }}"><i
+                                                            class="fa fa-linkedin"></i></a>
+                                            </li>
+                                            <li><a href="{{ lesson.cours.formateur.googlePlus }}"><i
+                                                            class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {% if lesson.quiz|length > 0 %}
+                                <div class="uv-cd-instructor uv-cd-wrap">
+                                    <div class="uv-cd-instrutor-details">
+                                        <h3>Quiz</h3>
+                                        {% if quizEtudiant == false %}
+                                            <form action="{{ path('espace_etudiant_quiz_repondre', {'id_lesson': lesson.id}) }}"
+                                                  method="post">
+                                                {% for quiz in lesson.quiz %}
+                                                    <h4>{{ quiz.titre|capitalize }}</h4>
+                                                    {% for choix in quiz.quizQuestions %}
+                                                        <input type="radio" name="choix-{{ quiz.id }}"
+                                                               id="choix-{{ choix.id }}" required
+                                                               value="{{ choix.id }}">
+                                                        <label for="choix-{{ choix.id }}">{{ choix.titre|capitalize }}</label>
+                                                        <br>
+                                                    {% endfor %}
+                                                {% endfor %}
+
+                                                <input type="submit" value="Valider">
+                                            </form>
+                                        {% else %}
+                                            <form>
+                                                {% for reponse in reponseEtudiant %}
+                                                    <h4>{{ reponse.quiz.titre|capitalize }}</h4>
+                                                    <input type="radio" name="" disabled>
+                                                    <label class="{{ reponse.resultat == true ? 'text-success' : 'text-danger' }}">
+                                                        {{ reponse.choix.titre|capitalize }}
+                                                    </label>
+                                                    {% if reponse.resultat == true %}
+                                                        <i class="fa fa-check text-success"></i>
+                                                    {% else %}
+                                                        <i class="fa fa-times text-danger"></i>
+                                                    {% endif %}
+                                                    <br>
+                                                    {% for autreChoix in reponse.quiz.quizQuestions if autreChoix != reponse.choix %}
+                                                        <input type="radio" name="" disabled>
+                                                        <label class="{{ autreChoix.juste == true ? 'text-success' : '' }}">{{ autreChoix.titre|capitalize }}</label>
+                                                        <br>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </form>
+                                            <p>
+                                                Note {{ quizEtudiant.note }} / 10
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div><!-- #primary -->
+
+                <aside class="uv-sidebar col-md-4 col-sm-12">
+                    <div class="uv_featured_course_list uv_aside2_hdg mb30">
+                        <h5>Détails cours</h5>
+                        <ul>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>Durée du cours</span>
+                                </div>
+                                <span class="uv_duration">{{ lesson.cours.convertToHoursMins|default(0) }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-align-left"></i>
+                                    <span>Nombre lessons</span>
+                                </div>
+                                <span class="uv_duration">{{ lesson.cours.lessons|length }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-bullhorn"></i>
+                                    <span>Quiz</span>
+                                </div>
+                                <span class="uv_duration">{{ nombreQuiz }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-database"></i>
+                                    <span>Niveau</span>
+                                </div>
+                                <span class="uv_duration">{{ lesson.cours.niveau|capitalize }}</span>
+                            </li>
+                        </ul>
+                        <a class="uv_add_fav ajouter-en-favoris"
+                           data-id="{{ lesson.cours.id }}"
+                           id="ajouter-en-favoris-{{ lesson.cours.id }}"
+                           style="width: 100%;display: {{ coursDejaEnFavoris == false ? 'block' : 'none' }};"
+                           href="{{ path('front_favoris_cours_ajouter') }}"><i class="fa fa-heart-o"></i> Ajouter au
+                            favoris</a>
+                        <a class="uv_add_fav supprimer-de-favoris"
+                           data-id="{{ lesson.cours.id }}"
+                           id="supprimer-de-favoris-{{ lesson.cours.id }}"
+                           style="width: 100%;display: {{ coursDejaEnFavoris == true ? 'block' : 'none' }};"
+                           href="{{ path('front_favoris_cours_supprimer') }}"><i class="fa fa-heart"></i> Supprimer de
+                            favoris</a>
+
+                    </div>
+
+
+                    <div class="uv_course_intro default_width mb30">
+                        <iframe width="" height="300" style="width: 100%"
+                                src="https://www.youtube.com/embed/{{ lesson.cours.video.identif }}">
+                        </iframe>
+                        <figure>
+                            <figcaption class="uv_play_btn">
+                                <a data-rel="prettyPhoto" href="https://www.youtube.com/watch?v=Z_Qb-BOAVac"><i
+                                            class="fa fa-play"></i></a>
+                            </figcaption>
+                        </figure>
+                        <p>Introduction</p>
+                    </div>
+
+                    <div class="uv_aside_category uv_aside2_hdg mb30">
+                        <h5>Categories</h5>
+                        <ul>
+                            {% for categorie in categories %}
+                                <li><a href="#">{{ categorie.nom|capitalize }}</a>
+                                    <span>{{ categorie.cours|length }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

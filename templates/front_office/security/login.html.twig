@@ -1,0 +1,65 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Connexion </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Connexion</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found" >
+        <div class="container">
+            <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
+                <div class="col-sm-4 col-lg-offset-4">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <h3 class="text-center">Connexion</h3>
+                            <div class="uv-profile-setting-inner" style="padding: 20px;">
+                                <div class="row">
+                                    <form method="post">
+                                        {% if error %}
+                                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        {% endif %}
+
+                                        <label for="inputEmail" class="sr-only">Email</label>
+                                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                               class="form-control"
+                                               placeholder="Email" required autofocus><br>
+                                        <label for="inputPassword" class="sr-only">Mot e passe</label>
+                                        <input type="password" name="password" id="inputPassword" class="form-control"
+                                               placeholder="Mot de passe" required>
+
+                                        <input type="hidden" name="_csrf_token"
+                                               value="{{ csrf_token('authenticate') }}">
+
+                                        <button class="btn btn-lg btn-primary" type="submit" style="margin-top: 25px; float: left">
+                                           Se connecter
+                                        </button>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" style="font-weight: bold; color: #1bbc5f; float: right; padding-top: 33px;">
+                                            <i class="fa fa-user"></i>Inscription
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

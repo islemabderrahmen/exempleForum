@@ -1,0 +1,91 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Liste des quiz </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Quiz</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="col-sm-12">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <h4 class="text-center">Quiz: {{ lesson.titre|capitalize }}</h4>
+
+                            <div class="uv-profile-setting-inner" style="padding: 20px;">
+                                <div class="table-responsive" id="load-ajax">
+                                    <a href="{{ path('espace_formateur_quiz_ajouter', {'id_lesson': lesson.id}) }}"
+                                       class="btn btn-xs">Ajouter</a>
+                                    <br>
+                                    <table class="table table table-striped">
+                                        <caption>
+                        <span class="text-bold text-uppercase">
+                            Questions : <span class="badge badge-info">{{ quizs.getTotalItemCount }}</span>
+                        </span>
+                                        </caption>
+                                        <thead>
+                                        <tr>
+                                            <th class="col-lg-3">Titre</th>
+                                            <th class="col-lg-3">Cours</th>
+                                            <th class="col-lg-3">Lesson</th>
+                                            <th class="col-lg-2"></th>
+                                            <th class="col-lg-1 text-center">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for entity in quizs %}
+                                            <tr class="item-block">
+                                                <td>{{ entity.titre|capitalize }}</td>
+                                                <td>{{ entity.lesson.cours.titre|capitalize }}</td>
+                                                <td>{{ entity.lesson.titre|capitalize }}</td>
+                                                <td>{{ entity.quizQuestions|length }} choix</td>
+                                                <td class="text-center">
+                                                    <a href="{{ path('espace_formateur_quiz_modifier',{'id': entity.id}) }}"
+                                                       title="Modifier">
+                                                        <i class="fa fa-pencil text-primary fa-1x"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <a href="{{ path('espace_formateur_quiz_supprimer',{'id': entity.id}) }}"
+                                                       class="remove-item" title="Supprimer">
+                                                        <i class="fa fa-trash text-danger fa-1x"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="dataTables_paginate">
+                                        {{ knp_pagination_render(quizs) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/frontOffice/js/add-multiple.js') }}"></script>
+{% endblock %}

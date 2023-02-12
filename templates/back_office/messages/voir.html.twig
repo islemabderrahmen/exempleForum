@@ -1,0 +1,49 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <!--Modal header-->
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center">Voir message</h4>
+        </div>
+
+        <!--Modal body-->
+        <div class="modal-body">
+            <table class="table table-striped">
+                <tr>
+                    <td class="td-title">Sujet:</td>
+                    <td class="td-val"><strong>{{ entity.sujet|capitalize }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Expéditeur:</td>
+                    <td class="td-val"><strong>{{ entity.nom|capitalize }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Email:</td>
+                    <td class="td-val"><strong>{{ entity.email }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Tél:</td>
+                    <td class="td-val"><strong>{{ entity.telephone }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Reçu le:</td>
+                    <td class="td-val">{{ entity.dateEnvoi|localizeddate('medium', 'none', 'fr') }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Message:</td>
+                    <td class="td-val">{{ entity.contenu|raw|nl2br }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Modal footer-->
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-primary" type="button">
+                Fermer
+            </button>
+        </div>
+    </div>
+</div>
+

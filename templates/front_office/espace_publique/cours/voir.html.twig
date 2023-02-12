@@ -1,0 +1,287 @@
+{% extends 'front_office/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link href='{{ asset('assets/jquery-bar-rating-master/dist/themes/fontawesome-stars.css') }}' rel='stylesheet'
+          type='text/css'>
+
+{% endblock %}
+
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Voir cours</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Voir cours</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <div id="primary" class="content-area col-md-8 col-sm-12">
+                    <div class="uv-single-course">
+                        <div class="single-each-content uv-course-details-inner shadow-3">
+                            <img src="{{ asset(cours.image.webPath) }}" alt="" class="img-responsive uv-course-banner">
+                            <div class="uv-cd-heading uv-cd-wrap">
+                                <div class="each-title">
+                                    <h2>{{ cours.titre }}</h2>
+                                    <div class="uv-course-reveiw">
+                                        <span id="">(<i id="nombre">{{ nombreEvaluation }}</i>) évaluations</span>
+                                        <select class='rating' id='rating' data-id='mm'>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="uv-cd-meta">
+                                    <ul>
+                                        <li>
+                                            <figure>
+                                                {% if cours.formateur.avatar %}
+                                                    <img src="{{ asset(cours.formateur.avatar.webPath) }}"
+                                                         class="img-responsive">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/images/default_avatar.png') }}"
+                                                         class="img-responsive">
+                                                {% endif %}
+                                            </figure>
+                                            <div class="uv-course-meta-des">
+                                                <h6>{{ cours.formateur.utilisateur.uniqueNom }}</h6>
+                                                <span>{{ cours.formateur.pays.nameFr }}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i class="icon-book"></i>
+                                            <div class="uv-course-meta-des">
+                                                <h6>{{ cours.categorie.nom }}</h6>
+                                                <span>Categorie</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i class="icon-book"></i>
+                                            <div class="uv-course-meta-des">
+                                                <h6>Publié le</h6>
+                                                <span>{{ cours.dateCreation|date('d-m-Y') }}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="uv-cd-about  uv-cd-wrap">
+                                <h3>Déscription du cours</h3>
+                                {{ cours.description|raw }}
+                            </div>
+
+
+                            <div class="uv-cd-curriculam uv-cd-wrap">
+                                <h3>
+                                    Lessons
+                                    {% if is_granted('ROLE_FORMATEUR') %}
+                                        {% if app.user.formateur == cours.formateur %}
+                                            <a title="Ajouter un lesson"
+                                               href="{{ path('espace_formateur_lesson_ajouter', {'id_cours': cours.id}) }}"><i
+                                                        class="fa fa-plus-circle text-success"></i> </a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                </h3>
+                                <div class="uv-course-list-warp">
+                                    <ul>
+                                        {% for lesson in cours.lessons %}
+                                            <li>
+                                                <div class="uv_lec_title" style="width: 80%">
+                                                    <h6>{{ lesson.titre|capitalize }}</h6>
+                                                    <a href="{{ path('front_lesson_voir', {'slug': lesson.slug}) }}">
+                                                        <span>Voir</span>
+                                                    </a>
+                                                </div>
+                                                <div class="uv_lec_duration" style="width: 20%"><i
+                                                            class="fa fa-clock-o"></i>{{ lesson.duree }} Minutes
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="uv-cd-instructor uv-cd-wrap">
+                                <div class="uv-cd-instrutor-details">
+                                    {% if cours.formateur.avatar %}
+                                        <figure>
+                                            <img src="{{ asset(cours.formateur.avatar.webPath) }}"
+                                                 class="img-responsive" alt="">
+                                        </figure>
+                                    {% endif %}
+                                    <div class="uv-cd-instructor-details-inner">
+                                        <h3>{{ cours.formateur.utilisateur.uniqueNom }}</h3>
+                                        <span>{{ cours.formateur.pays.nameFr }}</span>
+                                        {{ cours.formateur.description|raw }}
+                                        <ul class="uv-social-icons">
+                                            <li><a href="{{ cours.formateur.facebook }}"><i class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li><a href="{{ cours.formateur.linkedin }}"><i class="fa fa-linkedin"></i></a>
+                                            </li>
+                                            <li><a href="{{ cours.formateur.googlePlus }}"><i
+                                                            class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- #primary -->
+
+                <aside class="uv-sidebar col-md-4 col-sm-12">
+                    <div class="uv_featured_course_list uv_aside2_hdg mb30">
+                        <h5>Détails cours</h5>
+                        <ul>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>Durée du cours</span>
+                                </div>
+                                <span class="uv_duration">{{ cours.convertToHoursMins|default(0) }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-align-left"></i>
+                                    <span>Nombre lessons</span>
+                                </div>
+                                <span class="uv_duration">{{ cours.lessons|length }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-bullhorn"></i>
+                                    <span>Quiz</span>
+                                </div>
+                                <span class="uv_duration">{{ nombreQuiz }}</span>
+                            </li>
+                            <li>
+                                <div class="uv_course_dur_list">
+                                    <i class="fa fa-database"></i>
+                                    <span>Niveau</span>
+                                </div>
+                                <span class="uv_duration">{{ cours.niveau|capitalize }}</span>
+                            </li>
+                        </ul>
+                        <a class="uv_add_fav ajouter-en-favoris"
+                           data-id="{{ cours.id }}"
+                           id="ajouter-en-favoris-{{ cours.id }}"
+                           style="width: 100%;display: {{ coursDejaEnFavoris == false ? 'block' : 'none' }};"
+                           href="{{ path('front_favoris_cours_ajouter') }}"><i class="fa fa-heart-o"></i> Ajouter au
+                            favoris</a>
+                        <a class="uv_add_fav supprimer-de-favoris"
+                           data-id="{{ cours.id }}"
+                           id="supprimer-de-favoris-{{ cours.id }}"
+                           style="width: 100%;display: {{ coursDejaEnFavoris == true ? 'block' : 'none' }};"
+                           href="{{ path('front_favoris_cours_supprimer') }}"><i class="fa fa-heart"></i> Supprimer de
+                            favoris</a>
+
+                        <a class="uv_add_fav ajouter-en-suivre"
+                           data-id="{{ cours.id }}"
+                           id="ajouter-en-suivre-{{ cours.id }}"
+                           style="width: 100%; background-color:orange;display: {{ coursDejaEnSuivre == false ? 'block' : 'none' }};"
+                           href="{{ path('front_suivre_cours_ajouter') }}"><i class="fa fa-plus-circle"></i> Suivre
+                            cours</a>
+                        <a class="uv_add_fav supprimer-de-suivre"
+                           data-id="{{ cours.id }}"
+                           id="supprimer-de-suivre-{{ cours.id }}"
+                           style="width: 100%;background-color:orange;display: {{ coursDejaEnSuivre == true ? 'block' : 'none' }};"
+                           href="{{ path('front_suivre_cours_supprimer') }}"><i class="fa fa-times-circle"></i> Ne plus
+                            suivre</a>
+                    </div>
+
+
+                    <div class="uv_course_intro default_width mb30">
+                        <iframe width="" height="300" style="width: 100%"
+                                src="https://www.youtube.com/embed/{{ cours.video.identif }}">
+                        </iframe>
+                        <figure>
+                            <figcaption class="uv_play_btn">
+                                <a data-rel="prettyPhoto" href="https://www.youtube.com/watch?v=Z_Qb-BOAVac"><i
+                                            class="fa fa-play"></i></a>
+                            </figcaption>
+                        </figure>
+                        <p>Introduction</p>
+                    </div>
+
+                    <div class="uv_aside_category uv_aside2_hdg mb30">
+                        <h5>Categories</h5>
+                        <ul>
+                            {% for categorie in categories %}
+                                <li><a href="#">{{ categorie.nom|capitalize }}</a>
+                                    <span>{{ categorie.cours|length }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/frontOffice/js/suivre.js') }}"></script>
+    <script src="{{ asset('assets/jquery-bar-rating-master/dist/jquery.barrating.min.js') }}"
+            type="text/javascript"></script>
+    <script>
+        $(function () {
+            $('.rating').barrating({
+                theme: 'fontawesome-stars',
+                {% if utilisateurAdejaEvalueCeCours %}
+                readonly: 'true',
+                initialRating: '{{ nombreEtoiles }}',
+                {% endif %}
+                onSelect: function (value, text, event) {
+
+                    if (typeof (event) !== 'undefined') {
+                        var coursId = {{ cours.id }}; // coursId
+
+                        $.ajax({
+                            url: '{{ path('evaluation_cours_ajouter', {'id': cours.id}) }}',
+                            type: 'post',
+                            data: {coursId: coursId, rating: value},
+                            dataType: 'json',
+                            success: function (data) {
+                                var average = data['averageRating'];
+                                $('#nombre').text(data.nombreEtoiles)
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+       /*
+        $(document).ready(function () {
+            $('.br-widget a').unbind();
+        });
+        */
+    </script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+<div class="col-sm-4 uv-sidebar uv-student-profile-sidebar">
+
+    <div class="uv-widget no-side-padding">
+        <div class="uv-student-nav">
+            <ul>
+                <li class="active">
+                    <a href="{{ path('front_espace_formateur_profil_voir') }}">
+                        <i class="fa fa-user-circle-o gt-color"></i>Mon Profil</a>
+                </li>
+                <li>
+                    <a href="{{ path('espace_formateur_cours_liste') }}"><i class="fa fa-bookmark"></i>mes Cours</a>
+                </li>
+                <li>
+                    <a href="{{ path('espace_formateur_cours_en_favoris') }}"><i class="fa fa-heart gt-color"></i>mes favoris</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_espace_formateur_profil_modifier') }}"><i class="fa fa-gears"></i>Modifier profil</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_espace_formateur_profil_changer_email') }}"><i class="fa fa-envelope"></i>Modifier email</a>
+                </li>
+                <li>
+                    <a href="{{ path('front_espace_formateur_profil_changer_mot_de_passe') }}"><i class="fa fa-key"></i>Sécurité</a>
+                </li>
+                <li><a href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i>Déconnexion</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

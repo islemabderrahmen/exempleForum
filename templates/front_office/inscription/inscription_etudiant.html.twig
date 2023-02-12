@@ -1,0 +1,87 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Inscription étudiant </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Inscription étudiant</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-lg-offset-2">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <h3 class="text-center">Inscription étudiant</h3>
+
+                            <div class="uv-profile-setting-inner" style="padding: 20px;">
+                                <div class="row">
+                                    {{ form_start(form) }}
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.utilisateur.nom) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.utilisateur.prenom) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.utilisateur.email) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.dateNaissance) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.sexe) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.telephone) }}
+                                    </div>
+                                    <div class="col-lg-12">
+                                        {{ form_row(form.adresse) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.Ville) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.Pays) }}
+                                    </div>
+                                    <br clear="left">
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.utilisateur.plainPassword.first) }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.utilisateur.plainPassword.second) }}
+                                    </div>
+                                    <br clear="left">
+                                    <div class="col-lg-6">
+                                        {{ form_row(form.avatar) }}
+                                    </div>
+                                    {{ form_widget(form) }}
+                                    <div class="col-xs-12">
+                                        <input type="submit" value="Inscription" class="btn btn-fill">
+                                    </div>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

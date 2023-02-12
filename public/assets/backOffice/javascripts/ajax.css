@@ -1,0 +1,19 @@
+.opacityOn {
+    opacity: 0.5;
+}
+
+/*div loading*/
+#divLoading {
+    display: none;
+}
+
+#divLoading {
+    position: fixed;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 30%;
+}

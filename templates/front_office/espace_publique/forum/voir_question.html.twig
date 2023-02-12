@@ -1,0 +1,80 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Forum</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Forum</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <div id="primary" class="content-area col-md-10 col-sm-12 col-md-offset-1">
+                    <h3 style="margin-left: 25px">{{ question.titre }}</h3>
+
+                    <div class="uv-profile-setting-inner" style="padding: 20px;">
+                        <table class="table table table-striped table-bordered">
+                            <tr class="item-block">
+                                <td style="padding: 15px; border-bottom: 2px solid lightgrey">
+                                    {% if app.user == question.utilisateur %}
+                                        <p style="">
+                                            <a href="{{ path('espace_publique_forum_question_modifier', {'id': question.id}) }}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <a href="{{ path('espace_publique_forum_question_supprimer', {'id': question.id}) }}"
+                                            class="remove-item" style="margin-left: 6px;">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </a>
+                                        </p>
+                                    {% endif %}
+                                    <p>Par <strong>{{ question.utilisateur.uniqueNom|capitalize }}</strong></p>
+                                    <p>à {{ question.dateCreation|date('d-m-Y à h:i') }}</p>
+                                    {{ question.texte|raw }}
+                                </td>
+                            </tr>
+                            {% for reponse in question.forumReponses %}
+                                <tr class="item-block">
+                                    <td style="padding: 15px; border-bottom: 2px solid lightgrey">
+                                        {% if app.user == reponse.utilisateur %}
+                                            <p style="">
+                                                <a href="{{ path('espace_publique_forum_reponse_modifier', {'id': reponse.id}) }}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a href="{{ path('espace_publique_forum_reponse_supprimer', {'id': reponse.id}) }}"
+                                                   class="remove-item" style="margin-left: 6px;">
+                                                    <i class="fa fa-times text-danger"></i>
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        <p>Par <strong>{{ reponse.utilisateur.uniqueNom|capitalize }}</strong></p>
+                                        <p>à {{ question.dateCreation|date('d-m-Y à h:i') }}</p>
+                                        {{ reponse.texte|raw }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+                {{ render(controller('App\\Controller\\FrontOffice\\EspacePublique\\ForumReponseController::formReponse')) }}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

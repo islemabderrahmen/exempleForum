@@ -1,0 +1,138 @@
+<!--MAIN NAVIGATION-->
+<!--===================================================-->
+
+<nav id="mainnav-container">
+    <div id="mainnav">
+
+        <!--Shortcut buttons-->
+        <!--================================-->
+        <div id="mainnav-shortcut">
+
+        </div>
+        <!--================================-->
+        <!--End shortcut buttons-->
+        <!--Menu-->
+        <!--================================-->
+        <div id="mainnav-menu-wrap">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul id="mainnav-menu" class="list-group">
+
+
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-info" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <li {{ (app.request.attributes.get('_route') == 'back_formateur_liste') ? ' class="active-link"' }}>
+                            <a href="{{ path('back_formateur_liste') }}">
+                                <i class="fa fa-users"></i>
+                                <span class="menu-title">Formateurs</span>
+                            </a>
+                        </li>
+
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-danger" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <li {{ (app.request.attributes.get('_route') == 'back_etudiant_liste') ? ' class="active-link"' }}>
+                            <a href="{{ path('back_etudiant_liste') }}">
+                                <i class="fa fa-graduation-cap"></i>
+                                <span class="menu-title">Etudiants</span>
+                            </a>
+                        </li>
+
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-success" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <li {{ (app.request.attributes.get('_route') == 'back_slideshow_list') ? ' class="active-link"' }}>
+                            <a href="#">
+                                <i class="fa fa-sliders"></i>
+                                <span class="menu-title">Slideshow</span>
+                                <i class="arrow"></i>
+                            </a>
+                            <!--Submenu-->
+                            <ul class="collapse {{ (app.request.attributes.get('_route') == 'back_slideshow_list') ? 'in' }}">
+                                <li>
+                                    <a href="{{ path('back_slideshow_liste') }}">Liste</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('back_slideshow_ajouter') }}">Ajouter</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-warning" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <li {{ (app.request.attributes.get('_route') == 'back_message_liste') ? ' class="active-link"' }}>
+                            <a href="#">
+                                <i class="fa fa-envelope"></i>
+                                <span class="menu-title">Messages</span>
+                                <i class="arrow"></i>
+                            </a>
+                            <!--Submenu-->
+                            <ul class="collapse {{ (app.request.attributes.get('_route') == 'back_message_received_list') ? 'in' }}">
+                                <li>
+                                    <a href="{{ path('back_message_liste') }}">Liste</a>
+                                </li>
+                                <li>
+                                    <a href="">Non lu</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <div class="progress progress-sm">
+                            <div class="progress-bar progress-bar-mint" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <li {{ (app.request.attributes.get('_route') == 'back_category_list') ? ' class="active-link"' }}>
+                            <a href="#">
+                                <i class="fa fa-list"></i>
+                                <span class="menu-title">Catégories</span>
+                                <i class="arrow"></i>
+                            </a>
+                            <!--Submenu-->
+                            <ul class="collapse {{ (app.request.attributes.get('_route') == 'back_category_list') ? 'in' }}">
+                                <li>
+                                    <a href="{{ path('back_categorie_liste') }}">Liste</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('back_categorie_ajouter') }}">Ajouter</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <div class="progress progress-sm">
+                                <div class="progress-bar progress-bar-danger" style="width: 100%;">
+                                </div>
+                            </div>
+                            <li {{ (app.request.attributes.get('_route') == 'back_administrateur_liste') ? ' class="active-link"' }}>
+                                <a href="{{ path('back_administrateur_liste') }}">
+                                    <i class="fa fa-user-secret"></i>
+                                    <span class="menu-title">Administrateurs</span>
+                                </a>
+                            </li>
+
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--================================-->
+        <!--End menu-->
+
+    </div>
+</nav>
+
+<!--===================================================-->
+<!--END MAIN NAVIGATION-->

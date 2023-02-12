@@ -1,0 +1,147 @@
+<header class="xt-header">
+    <div class="xt-header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 uv-header-contact">
+                    <a href="#"> <i class="fa fa-phone"></i>(519) - 875 - 9822</a>
+                    <a href="#"> <i class="fa fa-envelope-o"></i>info@curricular.edu</a>
+                </div>
+                <div class="col-sm-6 uv-header-user">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        {% if is_granted('ROLE_FORMATEUR') %}
+                            <a href="{{ path('front_espace_formateur_profil_voir') }}"
+                               style="font-size: 14px; font-weight: bold">{{ app.user.uniqueNom|title }}</a>
+                        {% elseif is_granted('ROLE_ETUDIANT') %}
+                            <a href="{{ path('front_espace_etudiant_profil_voir') }}"
+                               style="font-size: 14px; font-weight: bold">{{ app.user.uniqueNom|title }}</a>
+                        {% elseif is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('back_accueil') }}"
+                               style="font-size: 14px; font-weight: bold">Administration</a>
+                        {% endif %}
+                        <a href="{{ path('app_logout') }}"
+                           style="font-size: 14px; font-weight: bold; margin-left: 7px;"><i class="fa fa-power-off"
+                                                                                            style="margin-right: 4px;"></i>Déconnexion</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}"><i class="fa fa-key"></i>Connexion</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin">
+                            <i class="fa fa-user"></i>Inscription
+                        </a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="xt-main-nav">
+        <nav class="navbar nav-scroll home-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="uv-logo">
+                            <a href="{{ path('front_accueil') }}">
+                                <img src="{{ asset('assets/frontOffice/images/univ-logo.png') }}" alt=""
+                                     class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 pull-right">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-action="#js-navbar-menu" aria-expanded="false">
+                                <span aria-hidden="true" class="icon"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="js-navbar-menu">
+                            <ul class="nav navbar-nav ep-mobile-menu" id="navbar-nav">
+                                <li>
+                                    <a href="{{ path('front_accueil') }}">Accueil</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('front_cours_liste') }}">Cours</a>
+                                </li>
+                                <li class="dropdown xt-drop-nav">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                                       data-animations="fadeInDown fadeInDown fadeInDown">
+                                        Catégories
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% for categorie in categories %}
+                                            <li>
+                                                <a href="{{ path('front_cours_liste_par_categorie', {'slug': categorie.slug}) }}">{{ categorie.nom }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{{ path('front_nos_formateurs') }}">Nos formateurs</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('espace_publique_forum_accueil') }}">Forum</a>
+                                </li>
+                                <li><a href="{{ path('front_contact') }}">Contact</a></li>
+                                {% if is_granted('ROLE_FORMATEUR') %}
+                                    {{ render(controller('App\\Controller\\FrontOffice\\EspaceFormateur\\ProfilController::notification')) }}
+                                {% elseif is_granted('ROLE_ETUDIANT') %}
+                                    {{ render(controller('App\\Controller\\FrontOffice\\EspaceEtudiant\\ProfilController::notification')) }}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav><!-- /.navbar -->
+    </div>
+    <!-- Mobile Menu-->
+    <div class="menu-spacing visible-xs nav-scroll">
+        <div class="mobile-menu-area visible-xs visible-sm">
+            <div class="mobile-menu">
+                <nav id="mobile-menu-active">
+                    <ul class="main">
+                        <li class="active"><a class="main-a" href="#">Home</a>
+                            <ul>
+                                <li><a href="index-1.html">Home 1</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="main-a" href="#">Courses</a>
+                            <ul>
+                                <li><a href="course-listing.html">Course List</a></li>
+                                <li><a href="course-details.html">Single Course</a></li>
+                                <li><a href="course-details-2.html">Single Course 2</a></li>
+                                <li><a href="course-archive.html">Course Archive</a></li>
+                                <li><a href="course-quiz.html">Course Quiz</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="main-a" href="#">Features</a>
+                            <ul>
+                                <li><a href="not-found.html">404</a></li>
+                                <li><a href="login-reg.html">Login & Registration</a></li>
+                                <li><a href="teacher-details.html">Team Details</a></li>
+                                <li><a href="classes.html">Classes</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="services.html">Service</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="main-a" href="#">Profile</a>
+                            <ul>
+                                <li><a href="dashboard-my-profile.html">Profile</a></li>
+                                <li><a href="dashboard-classes.html">Classes</a></li>
+                                <li><a href="dashboard-courses.html">Courses</a></li>
+                                <li><a href="dashboard-fav-courses.html">Favorite Course</a></li>
+                                <li><a href="dashboard-privacy-setting.html">Privacy Setting</a></li>
+                                <li><a href="dashboard-profile-setting.html">Profile Setting</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="main-a" href="#">Blog</a>
+                            <ul>
+                                <li><a href="blog.html">Blog Page</a></li>
+                                <li><a href="blog-single.html">Blog Single</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="main-a" href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,60 @@
+{% extends 'back_office/base.html.twig' %}
+{% block page_title %}
+    Liste des Catégories
+{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Catégories</li>
+{% endblock breadcrumb %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liste des Catégories</h3>
+        </div>
+        <div class="panel-body" id="main">
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="{{ path('back_categorie_ajouter') }}" class="btn btn-success btn-labeled fa fa-plus">Ajouter</a>
+                </div>
+            </div>
+            <div class="table-responsive" id="load-ajax">
+                <br>
+                <table class="table table table-striped">
+                    <caption>
+                        <span class="text-bold text-uppercase">
+                            Catégories : <span class="badge badge-info">{{ entities.getTotalItemCount }}</span>
+                        </span>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th class="col-lg-1 text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                        <tr class="item-block">
+                            <td>{{ entity.nom|capitalize }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('back_categorie_modifier',{'id': entity.id}) }}" title="Modifier">
+                                    <i class="fa fa-pencil text-primary fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                                <a href="{{ path('back_categorie_supprimer',{'id': entity.id}) }}"
+                                   class="remove-item" title="Supprimer">
+                                    <i class="fa fa-trash text-danger fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate">
+                    {{ knp_pagination_render(entities) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

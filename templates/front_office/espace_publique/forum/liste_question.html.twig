@@ -1,0 +1,61 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Forum {{ categorie.nom|capitalize }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Forum {{ categorie.nom|capitalize }}</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <div id="primary" class="content-area col-md-10 col-sm-12 col-md-offset-1">
+                    <h3 style="margin-left: 10px">{{ categorie.nom|capitalize }}</h3>
+                    <div class="table-responsive">
+                        <a href="{{ path('espace_publique_forum_question_ajouter', {'slug': categorie.slug}) }}"
+                           class="btn btn-primary btn-xs"
+                           style="background-color: #0f74a8; color: white; border: blanchedalmond; font-size: 13px;">
+                            Ajouter question
+                        </a>
+                        <table class="table table table-striped" style="margin-top: 15px;">
+                            <tbody>
+                            {% for question in questions %}
+                                <tr>
+                                    <td class="col-lg-7">
+                                        <a style="font-size: 16px;" href="{{ path('espace_publique_forum_question_voir', {'slug': question.slug}) }}"> {{ question.titre }}</a>
+                                            <br>
+                                            <strong style="font-size: 12px;">à {{ question.dateCreation|date('d-m-Y à h:i') }} </strong>
+                                    </td>
+                                    <td class="col-lg-2">{{ question.forumReponses|length }} messages</td>
+                                    <td class="col-lg-3">Par <strong>{{ question.utilisateur.uniqueNom|capitalize }}</strong></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="">
+                            {{ knp_pagination_render(questions) }}
+                        </div>
+                    </div>
+                </div><!-- #primary -->
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

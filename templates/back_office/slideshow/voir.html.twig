@@ -1,0 +1,58 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <!--Modal header-->
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center">Voir détails</h4>
+        </div>
+
+        <!--Modal body-->
+        <div class="modal-body">
+            <table class="table table-striped">
+                <tr>
+                    <td class="td-title">Titre:</td>
+                    <td class="td-val"><strong>{{ entity.title|title }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-title">Etat:</td>
+                    <td class="td-val">
+                        {% if entity.active == '1' %}
+                            <span class="badge badge-success">
+                                Activé <span class="fa fa-check"></span>
+                            </span>
+                        {% elseif entity.active == '0' %}
+                            <span class="badge badge-danger">
+                                Désactivé <span class="fa fa-minus-circle"></span>
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-title">Crée le:</td>
+                    <td class="td-val">{{ entity.createdAt|localizeddate('medium', 'none', 'fr') }}</td>
+                </tr>
+                <tr>
+                    <td class="td-title">Titre:</td>
+                    <td class="td-val">{{ entity.title|capitalize }}</td>
+                </tr>
+                <tr>
+                    <td class="td-val" colspan="2" style="text-align: center">
+                        <figure>
+                            <img src="{{ asset(entity.webPath) }}" class="img-responsive img-center">
+                        </figure>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--Modal footer-->
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-primary" type="button">
+                Fermer
+            </button>
+        </div>
+    </div>
+</div>
+

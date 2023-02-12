@@ -1,0 +1,91 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Inscription formateur </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Inscription Formateur</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                {{ render(controller('App\\Controller\\FrontOffice\\EspaceFormateur\\ProfilController::leftSide')) }}
+                <div class="col-sm-8">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <div class="col-lg-6">
+                                <h3 class="pull-left">Participants</h3>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="">
+                                    <div class="uv-courses-2">
+                                        <div class="row">
+                                            {% for entity in listeEtudiantsInscris %}
+                                            {% if entity.utilisateur.etudiant %}
+                                            <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
+                                                <div class="uv-courese-single-thumb uv-shadow">
+                                                    <div class="uv-post-img">
+                                                        {% if entity.utilisateur.etudiant.avatar %}
+                                                            <img src="{{ asset(entity.utilisateur.etudiant.avatar.webPath|imagine_filter('image_263_200')) }}"
+                                                                 class="img-responsive" width="82%">
+                                                        {% else %}
+                                                            <img src="{{ asset('assets/images/default_avatar.png'|imagine_filter('image_263_200')) }}"
+                                                                 class="img-responsive" width="82%">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="uv-course-thumb-inner"
+                                                         style="height: 98px; overflow: hidden">
+                                                        <h4>{{ entity.utilisateur.uniqueNom|title }}</h4>
+                                                    </div>
+                                                </div>
+                                                {% elseif entity.utilisateur.formateur %}
+                                                <div class="col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
+                                                    <div class="uv-courese-single-thumb uv-shadow">
+                                                        <div class="uv-post-img">
+                                                            {% if entity.utilisateur.formateur.avatar %}
+                                                                <img src="{{ asset(entity.utilisateur.formateur.avatar.webPath|imagine_filter('image_263_200')) }}"
+                                                                     class="img-responsive" width="82%">
+                                                            {% else %}
+                                                                <img src="{{ asset('assets/images/default_avatar.png'|imagine_filter('image_263_200')) }}"
+                                                                     class="img-responsive" width="82%">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="uv-course-thumb-inner"
+                                                             style="height: 98px; overflow: hidden">
+                                                            <h4>{{ entity.utilisateur.uniqueNom|title }}</h4>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+{% endblock %}

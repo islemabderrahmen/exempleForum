@@ -1,0 +1,184 @@
+{% extends 'front_office/base.html.twig' %}
+
+{% block body %}
+    <style>
+        .fa-star{
+            color: lightgrey;
+        }
+        .checked {
+            color: orange;
+        }
+    </style>
+    <section class="header-slider header-slider-preloader" id="header-slider">
+        <div class="animation-slides owl-carousel owl-theme" id="animation-slide">
+            <!--Slide 1-->
+            {% for slide in slideshow %}
+                <div style="background-image:url({{ asset(slide.webPath) }})" class="item">
+                    <div class="slide-table">
+                        <div class="slide-tablecell">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-7 col-xs-12">
+                                        <div class="slide-text">
+                                            {% if slide.title != '' %}
+                                                <h1>{{ slide.title }}</h1>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div style="padding: 15px; margin: 20px; border: 1px solid green">
+        {{ render(controller('App\\Controller\\FrontOffice\\EspacePublique\\CoursController::formRechercheHorizontal')) }}
+    </div>
+
+    <section class="uv-feature-2">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="uv-secton-title wow fadeIn" data-wow-delay="0.2s">
+                    <h2>Derniers cours</h2>
+                    <hr class="uv-section-hr">
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="">
+                        <div class="uv-courses-2">
+                            <div class="row">
+                                {% for cours in cours %}
+                                    <div class="col-md-3 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
+                                        <div class="uv-courese-single-thumb uv-shadow">
+                                            <div class="uv-post-img">
+                                                <img src="{{ asset(cours.image.webPath|imagine_filter('image_263_200')) }}"
+                                                     alt=""
+                                                     class="img-responsive">
+                                                <div class="uv-post-author">
+                                                    {% if cours.formateur.avatar %}
+                                                        <img src="{{ asset(cours.formateur.avatar.webPath) }}"
+                                                             class="img-responsive">
+                                                    {% else %}
+                                                        <img src="{{ asset('assets/images/default_avatar.png') }}"
+                                                             class="img-responsive">
+                                                    {% endif %}
+                                                    <span>{{ cours.formateur.utilisateur.uniqueNom|title }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="uv-course-thumb-inner" style="height: 98px; overflow: hidden">
+                                                <a href="{{ path('front_cours_voir', {'slug': cours.slug}) }}">
+                                                    <h4>{{ cours.titre|title }}</h4></a>
+                                            </div>
+                                            <ul class="course-info-2">
+                                                <li class="course-info-2">
+                                                    <i class="fa fa-users"></i>
+                                                    <span>{{ cours.suivres|length }} étudiants</span>
+                                                </li>
+                                                <li class="uv-course-rating">
+                                                    {% set nb = cours.nombreEtoiles %}
+                                                    {% for i in 1..5 %}
+                                                        <i class="fa fa-star {{ i <= nb ? 'checked' : '' }}"></i>
+                                                    {% endfor %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="col-xs-12 wow fadeInUp" data-wow-delay="0.8s">
+                                    <div class="uv-course-more">
+                                        <a href="{{ path('front_cours_liste') }}" class="btn btn-2 btn-border">Tous les
+                                            cours</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="uv-achivement">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="section-title col-xs-12">
+                    <h2>Our Achivements</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing aelit, sed do eiusmod tempor incididunt.</p>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="uv-achivement-circle">
+                            <ul>
+                                <li class="col-md-3 col-sm-6">
+                                    <div class="row">
+                                        <div class="circles col-sm-6 col-xs-6">
+                                            <div class="progress progress-circle active" data-progress="100"
+                                                 style="position: relative;">
+                                                <svg viewBox="0 0 100 100" style="display: block; width: 100%;">
+                                                    <path d="M 50,50 m 0,-47.5 a 47.5,47.5 0 1 1 0,95 a 47.5,47.5 0 1 1 0,-95"
+                                                          stroke="#eee" stroke-width="5" fill-opacity="0"></path>
+                                                    <path d="M 50,50 m 0,-47.5 a 47.5,47.5 0 1 1 0,95 a 47.5,47.5 0 1 1 0,-95"
+                                                          stroke="#555" stroke-width="5" fill-opacity="0"></path>
+                                                </svg>
+                                                <div class="progressbar-text"
+                                                     style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(85, 85, 85);">
+                                                    50 kk
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="uv-circle-info col-sm-6 col-xs-6">
+                                            <i class="fa fa-book"></i>
+                                            <span>Cours</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6">
+                                    <style type="text/css">
+                                        path {
+                                            stroke-dasharray: none;
+                                        }
+                                    </style>
+                                    <div class="row">
+                                        <div class="circles col-sm-6 col-xs-6">
+                                            <div class="progress progress-circle" data-progress="60"></div>
+                                        </div>
+                                        <div class="uv-circle-info col-sm-6 col-xs-6">
+                                            <i class="fa flaticon-photo-camera"></i>
+                                            <span>Video Lecture</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6">
+                                    <div class="row">
+                                        <div class="circles col-sm-6 col-xs-6">
+                                            <div class="progress progress-circle" data-progress="100"></div>
+                                        </div>
+                                        <div class="uv-circle-info col-sm-6 col-xs-6">
+                                            <i class="fa flaticon-diploma-paper-roll"></i>
+                                            <span>Alumni</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6">
+                                    <div class="row">
+                                        <div class="circles col-sm-6 col-xs-6">
+                                            <div class="progress progress-circle" data-progress="100"></div>
+                                        </div>
+                                        <div class="uv-circle-info col-sm-6 col-xs-6">
+                                            <i class="fa flaticon-mortarboard"></i>
+                                            <span>Certificates</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

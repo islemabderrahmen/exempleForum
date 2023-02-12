@@ -1,0 +1,92 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Liste des lessons </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Liste des lessons</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                <div class="col-sm-12">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <h3 class="text-center">Lessons de cours {{ cours.titre|capitalize }}</h3>
+
+                            <div class="uv-profile-setting-inner" style="padding: 20px;">
+                                <div class="table-responsive" id="load-ajax">
+                                    <br>
+                                    <table class="table table table-striped">
+                                        <caption>
+                        <span class="text-bold text-uppercase">
+                            Lessons : <span class="badge badge-info">{{ lessons.getTotalItemCount }}</span>
+                        </span>
+                                        </caption>
+                                        <thead>
+                                        <tr>
+                                            <th class="col-lg-6">Titre</th>
+                                            <th class="col-lg-3">Crée le</th>
+                                            <th class="col-lg-1"></th>
+                                            <th class="col-lg-2 text-center">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for lesson in lessons %}
+                                            <tr class="item-block">
+                                                <td>{{ lesson.titre|capitalize }}</td>
+                                                <td>{{ lesson.dateCreation|date('d-m-Y') }}</td>
+                                                <td><a href="{{ path('espace_formateur_quiz_liste', {'id': lesson.id}) }}">Quiz</a> </td>
+                                                <td class="text-center">
+                                                    <a href="{{ path('front_lesson_voir',{'slug': lesson.slug}) }}"
+                                                       title="Voir">
+                                                        <i class="fa fa-eye text-success fa-1x"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <a href="{{ path('espace_formateur_lesson_modifier',{'id': lesson.id}) }}"
+                                                       title="Modifier">
+                                                        <i class="fa fa-pencil text-primary fa-1x"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <a href="{{ path('espace_formateur_lesson_supprimer',{'id': lesson.id}) }}"
+                                                       class="remove-item" title="Supprimer">
+                                                        <i class="fa fa-trash text-danger fa-1x"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="dataTables_paginate">
+                                        {{ knp_pagination_render(lessons) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/frontOffice/js/add-multiple.js') }}"></script>
+{% endblock %}

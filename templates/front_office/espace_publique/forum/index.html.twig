@@ -1,0 +1,46 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/header-bg-1.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Forum</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Forum</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="uv-single-contest uv-course-details">
+        <div class="container">
+            <div class="educationpress-main-content-inner row">
+                <div id="primary" class="content-area col-md-10 col-sm-12 col-md-offset-1">
+                    <h3 style="margin-left: 25px">Liste des forums</h3>
+                    {% for categorie in categories %}
+                        <a href="{{ path('espace_publique_forum_questions', {'slug': categorie.slug}) }}">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="feature-list text-center"
+                                     style="margin: 12px; padding: 15px; background-color: gainsboro">
+                                    <p><strong>{{ categorie.nom|upper }}</strong>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div><!-- #primary -->
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

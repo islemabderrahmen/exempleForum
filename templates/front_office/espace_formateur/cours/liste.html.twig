@@ -1,0 +1,96 @@
+{% extends 'front_office/base.html.twig' %}
+{% block body %}
+    <section class="uv-subpage-heading image-bg"
+             style="background-image: url({{ asset('assets/frontOffice/images/sub-banner.jpg') }});">
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="uv-subhead-content col-xs-12">
+                        <h2>Inscription formateur </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="uv-pagination">
+        <div class="container">
+            <ul>
+                <li class="active"><a href="{{ path('front_accueil') }}">Accueil</a></li>
+                <li><a href="#">Inscription Formateur</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="uv-profile page-not-found">
+        <div class="container">
+            <div class="row section-separator">
+                {{ render(controller('App\\Controller\\FrontOffice\\EspaceFormateur\\ProfilController::leftSide')) }}
+                <div class="col-sm-8">
+                    <div class="uv-sudent-profile-info">
+                        <div class="uv-student-courses-overview">
+                            <div class="col-lg-6">
+                                <h3 class="pull-left">Mes cours</h3>
+                            </div>
+                            <div class="col-lg-6" style="padding-top: 15px;">
+                                <a href="{{ path('espace_formateur_cours_ajouter') }}"
+                                   class="btn btn-fill btn-sm pull-right" style="font-size: 13px;"><i
+                                            class="fa fa-plus"></i> Ajouter cours</a>
+                            </div>
+                            <ul class="uv-std-favorites">
+                                {% for cours in cours %}
+                                    <li class="item-block">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="uv-fav-trainer-img">
+                                                    <a href="{{ path('front_cours_voir', {'slug': cours.slug}) }}">
+                                                        <img src="{{ asset(cours.image.webPath|imagine_filter('image_263_200')) }}"
+                                                             alt=""
+                                                             class="img-responsive">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="uv-std-fav-course-info">
+                                                    <div class="uv-std-course-review">
+                                                        <ul>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                            <li><i class="fa fa-star"></i></li>
+                                                        </ul>
+                                                        <b>4.0</b>
+                                                    </div>
+                                                    <a href="{{ path('front_cours_voir', {'slug': cours.slug}) }}">
+                                                        <h6>{{ cours.titre|capitalize }}</h6></a>
+                                                    <p>Publié le <a> {{ cours.dateCreation|date('d-m-Y') }}</a></p>
+
+                                                    <a href="{{ path('espace_formateur_lessons_liste', {'id': cours.id}) }}" class="btn btn-xs" style="padding: 0px 18px; font-size: 12px;">Lessons</a>
+                                                    <a href="{{ path('espace_formateur_quiz_notes_par_cours', {'id': cours.id}) }}" class="btn btn-xs" style="padding: 0px 18px; font-size: 12px;">Notes</a>
+                                                    <a href="{{ path('espace_formateur_cours_etudiant_inscris', {'id': cours.id}) }}"
+                                                       class="btn btn-xs" style="padding: 0px 18px; font-size: 12px;">Participants</a>
+                                                    <div class="uv-course-btn">
+                                                        <a href="{{ path('espace_formateur_cours_modifier', {'id': cours.id}) }}"
+                                                           data-toggle="tooltip" data-placement="top"
+                                                           title="Modifier" class="gt-update-btn"><i
+                                                                    class="fa fa-pencil"></i>
+                                                        </a>
+                                                        <a href="{{ path('espace_formateur_cours_supprimer', {'id': cours.id}) }}"
+                                                           data-toggle="tooltip" data-placement="top"
+                                                           title="Supprimer" class="gt-remove-btn remove-item"><i
+                                                                    class="fa fa-remove"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+security:
+    encoders:
+        # use your user class name here
+        App\Entity\Utilisateur:
+            # bcrypt or argon2i are recommended
+            # argon2i is more secure, but requires PHP 7.2 or the Sodium extension
+            algorithm: argon2i
+
+    role_hierarchy:
+        ROLE_ETUDIANT:      ROLE_USER
+        ROLE_FORMATEUR:       ROLE_USER
+        ROLE_ADMIN:          ROLE_USER
+        ROLE_SUPER_ADMIN:    ROLE_ADMIN
+
+    providers:
+        in_memory:
+            entity:
+                class: App\Entity\Utilisateur
+                # the property to query by - e.g. username, email, etc
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\LoginHandler\LoginFormAuthenticator
+
+            pattern: ^/
+
+            logout:
+                path: app_logout
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/inscription, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/espace-etudiant, role: ROLE_ETUDIANT }
+        - { path: ^/espace-formateur, role: ROLE_FORMATEUR }
+        - { path: ^/profil/, role: IS_AUTHENTICATED_REMEMBERED }
+        #- { path: ^/administration/, role: ROLE_ADMIN }

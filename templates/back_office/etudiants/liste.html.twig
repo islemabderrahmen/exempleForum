@@ -1,0 +1,108 @@
+{% extends 'back_office/base.html.twig' %}
+{% block page_title %}
+    Liste des Etudiants
+{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Etudiants</li>
+{% endblock breadcrumb %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Liste des Etudiants</h3>
+        </div>
+        <div class="panel-body" id="main">
+            <div class="row">
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-6 text-right">
+                    <span class="text-bold">Trier par </span>
+                    <div class="btn-group">
+                        <button class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown"
+                                type="button" id="filtering-button">
+                            {% if app.request.get('sort') == 'e.id' and app.request.get('direction') == 'desc' %}
+                                Le plus récent
+                            {% elseif app.request.get('sort') == 'e.id' and app.request.get('direction') == 'asc' %}
+                                Le plus ancien
+                            {% elseif app.request.get('sort') == 'u.prenom' and app.request.get('direction') == 'asc' %}Nom A à Z
+                            {% elseif app.request.get('sort') == 'u.prenom' and app.request.get('direction') == 'desc' %}Nom Z à A
+                            {% else %}
+                                Le plus récent
+                            {% endif %}
+
+                            <i class="dropdown-caret fa fa-caret-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="filtering-data">
+                            <li class="filtering-data with-loading">{{ knp_pagination_sortable(entities, 'Le plus récent', 'e.id', {'direction': 'desc'}) }}</li>
+                            <li class="filtering-data with-loading">{{ knp_pagination_sortable(entities, 'Le plus ancien', 'e.id', {'direction': 'asc'}) }}</li>
+                            <li class="filtering-data with-loading">{{ knp_pagination_sortable(entities, 'Nom A à Z', 'u.prenom', {'direction': 'asc'}) }}</li>
+                            <li class="filtering-data with-loading">{{ knp_pagination_sortable(entities, 'Nom Z à A', 'u.prenom', {'direction': 'desc'}) }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" id="load-ajax">
+                <br>
+                <table class="table table table-striped">
+                    <caption>
+                        <span class="text-bold text-uppercase">
+                            Etudiants : <span class="badge badge-info">{{ entities.getTotalItemCount }}</span>
+                        </span>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th class="col-lg-4">Nom et prénom</th>
+                        <th class="col-lg-2">Email</th>
+                        <th class="col-lg-2">Mobile</th>
+                        <th class="col-lg-2">Inscri le</th>
+                        <th class="col-lg-1 text-center">Statut</th>
+                        <th class="col-lg-1 text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                        <tr class="item-block">
+                            <td href="{{ path('back_etudiant_voir', {'id': entity.id}) }}"
+                                class="cursor-pointer with-loading"
+                                data-remote="false" data-toggle="modal"
+                                data-target="#myModalShow">{{ entity.utilisateur.uniqueNom|capitalize }}
+                            </td>
+                            <td>{{ entity.utilisateur.email }}</td>
+                            <td>{{ entity.telephone|default('') }}</td>
+                            <td>{{ entity.utilisateur.dateInscription|localizeddate('medium', 'none', 'fr') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('back_etudiant_activer', {'id': entity.id}) }}"
+                                   class="activate-deactivate" data-active="{{ entity.utilisateur.active ? '1' : '0' }}">
+                                    <i class="fa fa-unlock text-success bigger-150 icon-unlocked add-tooltip tooltip-error"
+                                       data-placement="top" data-original-title="Cliquer pour désactiver"
+                                       style="display: {{ entity.utilisateur.active ? 'block' : 'none' }}">
+                                    </i>
+                                    <i class="fa fa-lock text-danger bigger-150 icon-locked add-tooltip tooltip-success"
+                                       data-placement="top" data-original-title="Cliquer pour activer"
+                                       style="display: {{ entity.utilisateur.active ? 'none' : 'block' }}">
+                                    </i>
+                                </a>
+                                <i class="fa fa-spinner fa-spin text-primary fa-1x" style="display: none"></i>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('back_etudiant_voir', {'id': entity.id}) }}"
+                                   data-remote="false" data-toggle="modal"
+                                   data-target="#myModalShow"
+                                   class="add-tooltip tooltip-info with-loading"
+                                   data-placement="top" data-original-title="Voir">
+                                    <i class="fa fa-eye text-info fa-1x"></i>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate">
+                    {{ knp_pagination_render(entities) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

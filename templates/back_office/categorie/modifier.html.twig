@@ -1,0 +1,29 @@
+{% extends 'back_office/base.html.twig' %}
+{% block page_title %}
+    Modifier Catégorie
+{% endblock %}
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Modifier catégorie</li>
+{% endblock breadcrumb %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Modifier Catégorie</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-lg-6">
+                {{ include('back_office/includes/form_errors.html.twig') }}
+
+                {{ form_start(form,{'attr': {'class': 'with-loading'}}) }}
+                {{ form_widget(form.nom) }}
+                <br>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Enregistrer
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
